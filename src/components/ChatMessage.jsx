@@ -15,7 +15,7 @@ export default function ChatMessage({ message, type, created_at }) {
   return (
     <div className={`flex ${isAI ? 'justify-start' : 'justify-end'} items-end gap-3`}>
       {isAI && (
-        <img src="/src/assets/logo.svg" alt="FURIA" className="w-8 h-8 rounded-full bg-furia-accent/30" />
+        <img src="./src/assets/logo.svg" alt="FURIA" className="w-8 h-8 rounded-full bg-furia-accent/30" />
       )}
       <div className={`
         px-5 py-4 rounded-3xl max-w-[80%] shadow
