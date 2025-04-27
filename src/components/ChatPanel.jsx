@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import ChatMessage from './ChatMessage'
 import QuickReplies from './QuickReplies'
-import { FiTrash2 } from 'react-icons/fi'
+import { FiTrash2, FiSend, FiX } from 'react-icons/fi'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL
 
@@ -14,10 +14,10 @@ function setSessionId(id) {
 }
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   useEffect(() => {
     function handleResize() {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(window.innerWidth < 1024)
     }
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
@@ -30,6 +30,7 @@ export default function ChatPanel({ onClose }) {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [sessionId, setSessionIdState] = useState(getSessionId())
+  const [showQuickReplies, setShowQuickReplies] = useState(true)
   const chatRef = useRef(null)
   const isMobile = useIsMobile()
 
@@ -94,32 +95,44 @@ export default function ChatPanel({ onClose }) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/80 z-50 animate-fade-in">
-      <div className="relative bg-gradient-to-br from-[#23232b] via-[#18181b] to-[#23232b] rounded-5xl shadow-furia w-full max-w-4xl h-[88vh] flex flex-col border-2 border-furia-accent/40 animate-slide-up">
-        <button
-          className="absolute top-6 right-8 text-3xl text-furia-accent hover:text-furia-white transition z-10"
-          style={{ right: '2.5rem' }}
-          onClick={onClose}
-          aria-label="Fechar chat"
-        >
-          &times;
-        </button>
-        <div className="flex items-center gap-4 px-6 md:px-12 pt-8 md:pt-10 pb-4 border-b border-furia-accent/10">
+      <div className="
+        relative 
+        bg-gradient-to-br from-[#23232b] via-[#18181b] to-[#23232b] 
+        md:rounded-5xl rounded-none
+        shadow-furia 
+        w-full md:max-w-4xl
+        h-screen md:h-[88vh]
+        flex flex-col 
+        border-2 border-furia-accent/40 
+        animate-slide-up
+      ">
+        {!isMobile && (
+          <button
+            className="absolute right-2 md:right-8 top-2 md:top-6 text-3xl text-furia-accent hover:text-furia-white transition z-10"
+            onClick={onClose}
+            aria-label="Fechar chat"
+          >
+            &times;
+          </button>
+        )}
+        <div className="flex items-center gap-4 px-4 md:px-12 pt-6 md:pt-10 pb-4 border-b border-furia-accent/10">
           <img src="logo.svg" alt="FURIA avatar" className="w-14 h-14 rounded-full bg-furia-accent/20" />
-          <div>
-            <h2 className="text-2xl font-bold text-furia-accent">Assistente FURIA</h2>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-bold text-furia-accent truncate">Assistente FURIA</h2>
+              <button
+                className="p-2 rounded-full bg-furia-accent/10 hover:bg-furia-accent/30 transition flex items-center justify-center"
+                onClick={handleNewConversation}
+                title="Limpar conversa"
+                aria-label="Limpar conversa"
+              >
+                <FiTrash2 className="text-xl text-furia-accent" />
+              </button>
+            </div>
             <span className="text-gray-300 text-base">Online</span>
           </div>
-          <button
-            className="ml-auto p-3 rounded-full bg-furia-accent/10 hover:bg-furia-accent/30 transition"
-            style={{ marginLeft: '2.5rem' }}
-            onClick={handleNewConversation}
-            title="Limpar conversa"
-            aria-label="Limpar conversa"
-          >
-            <FiTrash2 className="text-2xl text-furia-accent" />
-          </button>
         </div>
-        <div ref={chatRef} className="flex-1 overflow-y-auto px-6 md:px-12 py-6 space-y-4 bg-transparent">
+        <div ref={chatRef} className="flex-1 overflow-y-auto px-4 md:px-12 py-4 md:py-6 space-y-4 bg-transparent">
           {messages.length === 0 && (
             <div className="text-gray-400 text-lg text-center mt-16">Como posso ajudar você hoje?</div>
           )}
@@ -133,28 +146,60 @@ export default function ChatPanel({ onClose }) {
             </div>
           )}
         </div>
-        <div className="px-6 md:px-12 pb-6 md:pb-8 pt-2">
-          {!isMobile && <QuickReplies replies={quickReplies} onSelect={sendMessage} />}
-          <form className="flex gap-3 mt-4" onSubmit={e => { e.preventDefault(); sendMessage(input) }}>
-            <input
-              type="text"
-              className="flex-1 p-4 rounded-3xl border border-furia-accent/30 bg-[#23232b] text-white text-lg focus:border-furia-accent outline-none transition"
-              placeholder="Digite sua mensagem..."
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              disabled={loading}
-              autoFocus
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="bg-furia-accent text-furia-black font-bold px-8 py-3 rounded-3xl shadow hover:bg-furia-accent2 transition text-lg"
-            >
-              {loading ? (
-                <span className="animate-spin inline-block w-6 h-6 border-2 border-furia-black border-t-transparent rounded-full"></span>
-              ) : 'Enviar'}
-            </button>
-          </form>
+        <div className="px-2 md:px-12 pb-4 md:pb-8 pt-2">
+          {!isMobile && showQuickReplies && (
+            <div className="flex items-center mb-2">
+              <QuickReplies replies={quickReplies} onSelect={sendMessage} />
+              <button
+                type="button"
+                onClick={() => setShowQuickReplies(false)}
+                aria-label="Fechar sugestões"
+                className="ml-2 p-2 rounded-full bg-furia-accent/10 hover:bg-furia-accent/30 transition flex items-center justify-center"
+              >
+                <FiX className="text-xl text-furia-accent" />
+              </button>
+            </div>
+          )}
+          <div className={`flex items-center ${isMobile ? 'gap-2' : 'gap-2 md:gap-3'} mt-4`}>
+            <form className="flex flex-1 gap-2" onSubmit={e => { e.preventDefault(); sendMessage(input) }}>
+              <input
+                type="text"
+                className="flex-1 min-w-0 p-3 md:p-4 rounded-3xl border border-furia-accent/30 bg-[#23232b] text-white text-lg focus:border-furia-accent outline-none transition"
+                placeholder="Digite sua mensagem..."
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                disabled={loading}
+                autoFocus
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className={`flex-shrink-0 bg-furia-accent text-furia-black font-bold px-3 md:px-8 py-3 rounded-3xl shadow hover:bg-furia-accent2 transition text-lg w-12 md:w-auto truncate flex items-center justify-center gap-2
+                  ${(!loading && input.trim()) ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                style={{ minWidth: 48, maxWidth: 96 }}
+              >
+                {loading ? (
+                  <span className="animate-spin inline-block w-6 h-6 border-2 border-furia-black border-t-transparent rounded-full"></span>
+                ) : (
+                  <>
+                    <span className="hidden xs:inline">Enviar</span>
+                    <FiSend className="inline text-xl" />
+                  </>
+                )}
+              </button>
+            </form>
+            {isMobile && (
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Fechar chat"
+                className="flex-shrink-0 p-3 rounded-full bg-furia-accent/10 hover:bg-furia-accent/30 transition flex items-center justify-center"
+                style={{ minWidth: 48, maxWidth: 48 }}
+              >
+                <FiX className="text-2xl text-furia-accent" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
