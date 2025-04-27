@@ -13,12 +13,15 @@ function Features() {
       <div className="bg-[#23232b] rounded-3xl p-8 shadow-furia flex flex-col items-center transition-all hover:scale-105 hover:shadow-2xl duration-300">
         <span className="text-furia-accent text-4xl mb-4">📊</span>
         <h3 className="text-lg font-bold text-furia-accent mb-2">Estatísticas ao Vivo</h3>
-        <p className="text-gray-200 text-base text-center">Acompanhe placares, curiosidades e dados em tempo real dos jogos.</p>
+        <p className="text-gray-200 text-base text-center">Acompanhe placares, curiosidades e dados em tempo real dos jogos. Os dados utilizados pela IA são consultados em tempo real!</p>
       </div>
-      <div className="bg-[#23232b] rounded-3xl p-8 shadow-furia flex flex-col items-center transition-all hover:scale-105 hover:shadow-2xl duration-300">
+      <div
+      onClick={() => window.open('https://www.linkedin.com/in/matheus-da-cunha-castilho-29ba4225a/', '_blank')}
+      className="bg-[#23232b] rounded-3xl p-8 shadow-furia flex flex-col items-center transition-all hover:scale-105 hover:shadow-2xl duration-300 cursor-pointer"
+      >
         <span className="text-furia-accent text-4xl mb-4">🦁</span>
-        <h3 className="text-lg font-bold text-furia-accent mb-2">Comunidade FURIA</h3>
-        <p className="text-gray-200 text-base text-center">Interaja com outros fãs e fique por dentro das novidades.</p>
+        <h3 className="text-lg font-bold text-furia-accent mb-2">Feito por Matheus Castilho</h3>
+        <p className="text-gray-200 text-base text-center">Para ver mais trabalhos, acompanhe meu Linkedin! Clique neste card.</p>
       </div>
     </section>
   )
@@ -62,7 +65,7 @@ export default function App() {
       {showChat && <ChatPanel onClose={() => setShowChat(false)} />}
 
       <footer className="w-full py-8 text-center text-gray-500 text-base border-t border-furia-accent/10 z-10 relative">
-        © {new Date().getFullYear()} FURIA Fan Chat
+        © {new Date().getFullYear()} FURIA Fan Chat - Matheus da Cunha Castilho
       </footer>
     </div>
   )

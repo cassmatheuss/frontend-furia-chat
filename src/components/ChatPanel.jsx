@@ -91,6 +91,7 @@ export default function ChatPanel({ onClose }) {
     "Está tendo algum jogo hoje?",
     "Qual foi o ultimo jogo da Furia?",
     "Quem criou este ChatBot?",
+    "Qual o próximo jogo da Furia?",
   ]
 
   return (
