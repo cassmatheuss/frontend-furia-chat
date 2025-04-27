@@ -104,7 +104,7 @@ export default function ChatPanel({ onClose }) {
           &times;
         </button>
         <div className="flex items-center gap-4 px-6 md:px-12 pt-8 md:pt-10 pb-4 border-b border-furia-accent/10">
-          <img src="./src/assets/logo.svg" alt="FURIA avatar" className="w-14 h-14 rounded-full bg-furia-accent/20" />
+          <img src="logo.svg" alt="FURIA avatar" className="w-14 h-14 rounded-full bg-furia-accent/20" />
           <div>
             <h2 className="text-2xl font-bold text-furia-accent">Assistente FURIA</h2>
             <span className="text-gray-300 text-base">Online</span>

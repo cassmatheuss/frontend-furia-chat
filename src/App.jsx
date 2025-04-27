@@ -32,7 +32,7 @@ export default function App() {
       <AnimatedBG />
 
       <header className="fixed top-0 left-0 w-full z-30 flex items-center justify-between px-4 md:px-8 py-3 md:py-4 bg-black/40 backdrop-blur-xl border-b border-furia-accent/10 shadow-lg">
-        <img src="./src/assets/logo.svg" alt="Logo FURIA" className="w-32" draggable={false} />
+        <img src="logo.svg" alt="Logo FURIA" className="w-32" draggable={false} />
         <button
           className="px-6 py-2 rounded-3xl bg-furia-accent text-furia-black font-bold shadow hover:bg-furia-accent2 transition"
           onClick={() => setShowChat(true)}
@@ -42,7 +42,7 @@ export default function App() {
       </header>
       <main className="flex-1 flex flex-col items-center justify-center z-10 px-4 w-full pt-[120px] md:pt-[160px]">
         <section className="flex flex-col items-center justify-center min-h-[60vh] w-full">
-          <img src="./src/assets/logo.svg" alt="Logo FURIA" className="w-80 mb-8 drop-shadow-2xl animate-fade-in" draggable={false} />
+          <img src="logo.svg" alt="Logo FURIA" className="w-80 mb-8 drop-shadow-2xl animate-fade-in" draggable={false} />
           <h1 className="text-5xl md:text-7xl font-black tracking-tight text-furia-accent drop-shadow-xl animate-slide-up text-center">
             FURIA Fan Chat
           </h1>
